@@ -4,17 +4,10 @@
   </NuxtLayout>
 </template>
 
-<style scoped>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+<script>
+import 'primevue/resources/themes/aura-light-green/theme.css'
+</script>
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    background-color: #eefbfc;
-    color: #484848;
-  }
+<style scoped>
+
 </style>

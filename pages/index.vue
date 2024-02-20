@@ -1,7 +1,7 @@
 <template>
   <Main>
     <template #form>
-      <Form />
+      <CityForm />
     </template>
     <template #weather>
       <Weather />

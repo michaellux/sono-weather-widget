@@ -1,10 +1,6 @@
 <template>
-  <header>
-    <h1>Weather</h1>
-  </header>
   <slot />
-  <footer>
-  </footer>
+  <footer />
 </template>
 
 <script setup lang="ts">

@@ -1,8 +1,8 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <form action="">
-    <input type="text">
-  </form>
+  <h1 class="text-3xl">
+    Weather
+  </h1>
 </template>
 
 <script setup>

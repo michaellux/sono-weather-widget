@@ -2,6 +2,9 @@
 <template>
   <main>
     <div class="main-container">
+      <header class="text-center py-3">
+        <WeatherTitle />
+      </header>
       <slot name="form" />
       <slot name="weather" />
       <div class="cards">
@@ -37,8 +40,7 @@
 
 <style lang="scss" scoped>
   .main-container {
-    max-width: 45vw;
+    max-width: 85vw;
     margin: auto;
-    padding-top: 60px;
   }
 </style>
