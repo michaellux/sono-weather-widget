@@ -1,25 +1,46 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
-import type { WeatherResponse } from './../@types/weather'
+import type { WeatherResponse, Weather, WeatherResponseError } from './../@types/weather'
+import { API_URL, API_KEY } from '@/common/config'
+function mapToWeather (response: WeatherResponse): Weather {
+  return {
+    temp: response.main.temp,
+    humidity: response.main.humidity,
+    windSpeed: response.wind.speed,
+    weatherIcon: `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`,
+    city: response.name
+  }
+}
+
 interface WeatherStore {
- weatherNow: WeatherResponse,
- weatherNextNDays: Array<WeatherResponse>
+  city: string,
+  weatherNow: Weather,
+  weatherNextNDays: Array<Weather>,
+  isLoading: boolean,
+  error: WeatherResponseError
 }
 
 export const useWeatherStore = defineStore('weather', {
   state: (): WeatherStore => ({
-    weather: []
+    city: 'Moscow',
+    weatherNow: null,
+    weatherNextNDays: [],
+    isLoading: true,
+    error: null
   }),
   actions: {
-    async getAllWeatherData (city, days) {
-      const apiKey = 'YOUR_API_KEY'
-      const baseUrl = 'https://api.openweathermap.org/data/2.5'
+    async getAllWeatherData (days: number) {
+      const baseUrl = `http://${API_URL}`
 
-      const currentWeatherResponse = await axios.get(`${baseUrl}/weather?q=${city}&appid=${apiKey}`)
-      this.weatherNow = currentWeatherResponse.data
-
-      const forecastResponse = await axios.get(`${baseUrl}/forecast?q=${city}&cnt=${days}&appid=${apiKey}`)
-      this.weatherNextNDays = forecastResponse.data.list
+      try {
+        const currentWeatherResponse = await $fetch(`${baseUrl}/weather?q=${this.city}&appid=${API_KEY}`) as WeatherResponse
+        this.weatherNow = mapToWeather(currentWeatherResponse)
+        this.error = null
+      } catch (error: any) {
+        if ((error.data as WeatherResponseError)) {
+          this.error = (error.data as WeatherResponseError)
+        } else {
+          this.error = 'An error occurred while fetching weather data.';
+        }
+      }
     }
   }
 })

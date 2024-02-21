@@ -1,3 +1,5 @@
+import { WeatherResponse } from './weather'
+import { Weather } from './../.nuxt/components.d'
 type WeatherCondition = {
   id: number;
   main: string;
@@ -47,3 +49,16 @@ export type WeatherResponse = {
   name: string;
   cod: number;
 };
+
+export type Weather = {
+  city: string;
+  temp: number;
+  humidity: number;
+  windSpeed: number,
+  weatherIcon: string;
+} | null
+
+export type WeatherResponseError = {
+  cod: string
+  message: string
+} | null | string

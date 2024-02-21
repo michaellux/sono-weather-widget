@@ -1,14 +1,19 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <form class="mb-4" action="">
-    <InputText v-model="value" placeholder="Moscow" type="text" class="w-full p-3 border-emerald-600" />
+  <form class="pb-4" action="">
+    <InputText v-model="city" placeholder="Moscow" type="text" class="w-full p-3 border-emerald-600" />
   </form>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup>
+import { ref, watch } from 'vue'
+import { useWeatherStore } from '~/stores/weather'
 
-const city = ref('')
+const weatherStore = useWeatherStore()
+const city = ref(weatherStore.city)
+
+watch(city, (newValue) => {
+  weatherStore.city = newValue
+})
 </script>
 
 <style lang="scss" scoped>
