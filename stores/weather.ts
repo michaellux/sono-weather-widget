@@ -24,6 +24,12 @@ interface WeatherStore {
   error: WeatherResponseError
 }
 
+const fetchWeatherData = async (endpoint: string, queryParams: string): Promise<any> => {
+  const baseUrl = `http://${API_URL}`
+  const response = await $fetch(`${baseUrl}${endpoint}?${queryParams}&appid=${API_KEY}`)
+  return response
+}
+
 export const useWeatherStore = defineStore('weather', {
   state: (): WeatherStore => ({
     city: 'Moscow',
@@ -34,30 +40,22 @@ export const useWeatherStore = defineStore('weather', {
   }),
   actions: {
     async getAllWeatherData (days: number) {
-      const baseUrl = `http://${API_URL}`
-
       try {
-        const currentWeatherResponse = await $fetch(`${baseUrl}/weather?q=${this.city}&units=metric&appid=${API_KEY}`) as WeatherResponse
+        const currentWeatherResponse = await fetchWeatherData('/weather', `q=${this.city}&units=metric`)
         this.weatherNow = mapToWeather(currentWeatherResponse)
 
-        const forecastResponse = await $fetch(`${baseUrl}/forecast/daily?q=${this.city}&units=metric&cnt=${days + 1}&appid=${API_KEY}`) as WeatherList
-        let foreCastData: WeatherForShow[] = []
-        forecastResponse.list.forEach((element, index) => {
-          if (element !== null && index !== 0) {
-            foreCastData = [...foreCastData,
-              {
-                id: index,
-                day: getDayOfWeek(new Date(element.dt * 1000)),
-                temp: Math.round(element.temp.day),
-                humidity: element.humidity,
-                windSpeed: Number((element.speed).toFixed(1)),
-                weatherIcon: `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`,
-                city: forecastResponse.city.name
-              }
-            ]
+        const forecastResponse = await fetchWeatherData('/forecast/daily', `q=${this.city}&units=metric&cnt=${days + 1}`) as WeatherList
+        this.weatherNextNDays = forecastResponse.list.slice(1).map((element, index) => {
+          return {
+            id: index,
+            day: getDayOfWeek(new Date(element.dt * 1000)),
+            temp: Math.round(element.temp.day),
+            humidity: element.humidity,
+            windSpeed: Number((element.speed).toFixed(1)),
+            weatherIcon: `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`,
+            city: forecastResponse.city.name
           }
         })
-        this.weatherNextNDays = foreCastData
 
         this.error = null
       } catch (error: any) {
