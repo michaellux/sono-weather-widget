@@ -6,7 +6,7 @@ const mapToWeather = (response: WeatherResponse): WeatherForShow => {
     temp: Math.round(response.main.temp),
     humidity: response.main.humidity,
     windSpeed: Number((response.wind.speed).toFixed(1)),
-    weatherIcon: `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`,
+    weatherIcon: `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`,
     city: response.name
   }
 }
@@ -25,7 +25,7 @@ interface WeatherStore {
 }
 
 const fetchWeatherData = async (endpoint: string, queryParams: string): Promise<any> => {
-  const baseUrl = `http://${API_URL}`
+  const baseUrl = `https://${API_URL}`
   const response = await $fetch(`${baseUrl}${endpoint}?${queryParams}&appid=${API_KEY}`)
   return response
 }
@@ -52,7 +52,7 @@ export const useWeatherStore = defineStore('weather', {
             temp: Math.round(element.temp.day),
             humidity: element.humidity,
             windSpeed: Number((element.speed).toFixed(1)),
-            weatherIcon: `http://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`,
+            weatherIcon: `https://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`,
             city: forecastResponse.city.name
           }
         })
