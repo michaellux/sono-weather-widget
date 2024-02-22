@@ -1,5 +1,4 @@
-import { NextNDaysWeather } from './../.nuxt/components.d';
-import type { WeatherResponse, Weather, WeatherList, WeatherForShow, WeatherResponseError } from './../@types/weather'
+import type { WeatherResponse, WeatherList, WeatherForShow, WeatherResponseError } from './../@types/weather'
 import { API_URL, API_KEY } from '@/common/config'
 
 const mapToWeather = (response: WeatherResponse): WeatherForShow => {
@@ -20,7 +19,7 @@ const getDayOfWeek = (date: Date): string => {
 interface WeatherStore {
   city: string,
   weatherNow: WeatherForShow,
-  weatherNextNDays: Array<WeatherForShow>,
+  weatherNextNDays: WeatherForShow[],
   isLoading: boolean,
   error: WeatherResponseError
 }
@@ -42,8 +41,7 @@ export const useWeatherStore = defineStore('weather', {
         this.weatherNow = mapToWeather(currentWeatherResponse)
 
         const forecastResponse = await $fetch(`${baseUrl}/forecast/daily?q=${this.city}&units=metric&cnt=${days + 1}&appid=${API_KEY}`) as WeatherList
-        console.log(forecastResponse)
-        let foreCastData: Array<WeatherForShow> = []
+        let foreCastData: WeatherForShow[] = []
         forecastResponse.list.forEach((element, index) => {
           if (element !== null && index !== 0) {
             foreCastData = [...foreCastData,

@@ -1,13 +1,11 @@
-import { WeatherResponse } from './weather'
-import { Weather } from './../.nuxt/components.d'
-type WeatherCondition = {
+interface WeatherCondition {
   id: number;
   main: string;
   description: string;
   icon: string;
 };
 
-type MainWeatherData = {
+interface MainWeatherData {
   temp: number;
   feels_like: number;
   temp_min: number;
@@ -16,17 +14,17 @@ type MainWeatherData = {
   humidity: number;
 };
 
-type Wind = {
+interface Wind {
   speed: number;
   deg: number;
 };
 
-type Coordinates = {
+interface Coordinates {
   lon: number;
   lat: number;
 };
 
-export type WeatherResponse = {
+export interface WeatherResponse {
   coord: Coordinates;
   weather: WeatherCondition[];
   base: string;
@@ -50,7 +48,7 @@ export type WeatherResponse = {
   cod: number;
 };
 
-export type Weather = {
+export interface Weather {
   dt: number,
   weather: WeatherCondition[]
   humidity: number;
@@ -60,7 +58,7 @@ export type Weather = {
   }
 }
 
-export type WeatherList = {
+export interface WeatherList {
   city: {
     name: string;
   };

@@ -33,7 +33,6 @@ const fetchWeatherData = async () => {
       errorMessage.value = ''
     } else {
       errorMessage.value = weatherStore.error.message
-      console.log(weatherStore.error.message)
     }
   } else {
     errorMessage.value = ''
