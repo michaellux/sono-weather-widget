@@ -1,6 +1,6 @@
 <template>
-  <form class="pb-4" action="">
-    <InputText v-model="city" placeholder="Moscow" type="text" class="w-full p-3 border-emerald-600" />
+  <form class="py-4" action="">
+    <InputText v-model="city" placeholder="Input the city" type="text" class="w-full p-3 border-emerald-600" />
   </form>
 </template>
 

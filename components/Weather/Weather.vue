@@ -10,9 +10,13 @@
       </template>
     </Card>
   </div>
-  <div v-else class="weather flex gap-3 flex-col">
-    <CurrentWeather />
-    <NextNDaysWeather />
+  <div v-else class="weather">
+    <div class="flex gap-3 flex-col">
+      <CurrentWeather />
+    </div>
+    <div class="flex gap-3 flex-row flex-wrap">
+      <NextNDaysWeather />
+    </div>
   </div>
 </template>
 
@@ -21,9 +25,8 @@ import { useWeatherStore } from '~/stores/weather'
 const weatherStore = useWeatherStore()
 const weatherNow = ref(null)
 const errorMessage = ref('')
-const weatherNextNDays = ref([])
-const fetchWeatherData = async (days) => {
-  await weatherStore.getAllWeatherData(days)
+const fetchWeatherData = async () => {
+  await weatherStore.getAllWeatherData(3)
 
   if (weatherStore.error?.message) {
     if (weatherStore.error.cod === '400') {
@@ -40,11 +43,11 @@ const fetchWeatherData = async (days) => {
 }
 
 onMounted(() => {
-  fetchWeatherData(5)
+  fetchWeatherData()
 })
 
 watch(() => weatherStore.city, () => {
-  fetchWeatherData(5)
+  fetchWeatherData()
 })
 </script>
 

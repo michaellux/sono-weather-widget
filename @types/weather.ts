@@ -51,10 +51,29 @@ export type WeatherResponse = {
 };
 
 export type Weather = {
+  dt: number,
+  weather: WeatherCondition[]
+  humidity: number;
+  speed: number;
+  temp: {
+    day: number;
+  }
+}
+
+export type WeatherList = {
+  city: {
+    name: string;
+  };
+  list: Weather[]
+}
+
+export type WeatherForShow = {
+  id?: number;
+  day?: string;
   city: string;
   temp: number;
   humidity: number;
-  windSpeed: number,
+  windSpeed: number;
   weatherIcon: string;
 } | null
 
